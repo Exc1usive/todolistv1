@@ -6,10 +6,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8000;
-}
+let port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
