@@ -2,22 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
-import sslRedirect from 'heroku-ssl-redirect';
-
-//require mongoose NPM
 const mongoose = require("mongoose");
 
 const app = express();
 
 const port = process.env.PORT || 3000;
-if (port == null || port == "") {
-  port = 8000;
-}
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-app.use(sslRedirect());
 
 const pwd = "Daetoya40658790"
 mongoose.connect("mongodb+srv://xc1uDB:" + pwd + "@xc1udb.bmfa7on.mongodb.net/todolistDB")
