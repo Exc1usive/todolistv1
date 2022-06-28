@@ -7,13 +7,17 @@ const _ = require("lodash");
 const mongoose = require("mongoose");
 
 const app = express();
-const port = 3000;
-const pwd = "Daetoya40658790"
+
+const port = process.env.PORT || 3000;
+if (port == null || port == "") {
+  port = 8000;
+}
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+const pwd = "Daetoya40658790"
 mongoose.connect("mongodb+srv://xc1uDB:" + pwd + "@xc1udb.bmfa7on.mongodb.net/todolistDB")
 
 const itemsSchema = {
