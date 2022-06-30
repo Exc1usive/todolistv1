@@ -61,10 +61,14 @@ app.get("/", function(req, res) {
       })
       res.redirect("/")
     } else {
-    res.render("list", {
-      listTitle: day,
-      newListItems: item,
-      });
+      List.find({}, function(err, listItem) {
+        res.render("list", {
+          listTitle: day,
+          newListItems: item,
+          listItem: listItem,
+        });
+
+      })
     }
   });
 });
@@ -108,7 +112,13 @@ app.get("/:listName", function(req, res) {
         list.save();
         res.redirect("/" + listName)
       } else {
-        res.render("list", {listTitle: listName, newListItems: foundList.items})
+        List.find({}, function(err, listItem) {
+          res.render("list", {
+            listTitle: listName,
+            newListItems: foundList.items,
+            listItem: listItem,
+          });
+        })
       }
     }
   })

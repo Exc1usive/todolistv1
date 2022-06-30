@@ -3,6 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>To Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
   </head>
   <body>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title m-auto" id="exampleModalLabel">Select task list</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="p-1">
+          <a href="/">Main</a>
+        </p>
+        <% listItem.forEach(function(item, index) { %>
+          <p class="p-1">
+            <a href="/<%= item.name %>"><%= item.name %></a>
+          </p>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
