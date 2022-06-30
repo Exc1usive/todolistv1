@@ -146,7 +146,13 @@ app.post("/delete", function(req, res) {
 })
 
 app.post("/newList", function(req, res) {
-  res.redirect("/list/" + req.body.newItem)
+  const listName = _.capitalize(req.body.newItem);
+  List.create({name: listName}, function(err) {
+    if (!err) {
+      res.redirect("/list/" + listName)
+    }
+  })
+
 })
 
 app.get("/deleteList/:listName", function(req, res) {
