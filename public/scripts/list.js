@@ -9,6 +9,11 @@ function checked(item) {
 
 };
 
+$('#exampleModal').on('shown.bs.modal', function() {
+  $(this).find('input:first').focus();
+});
+
+
 // function deleteItem(item) {
 //   $("div[name='" + item + "']").hide("slow");
 //   console.log($("div[name='" + item + "']"));

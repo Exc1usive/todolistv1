@@ -91,14 +91,14 @@ app.post("/", function(req, res) {
       if (!err) {
         foundList.items.push(item);
         foundList.save();
-        res.redirect("/" + listName)
+        res.redirect("/list/" + listName)
       }
     })
   }
 
 })
 
-app.get("/:listName", function(req, res) {
+app.get("/list/:listName", function(req, res) {
 
   const listName = _.capitalize(req.params.listName);
 
@@ -139,10 +139,22 @@ app.post("/delete", function(req, res) {
   } else {
     List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList) {
       if (!err) {
-        res.redirect("/" + listName)
+        res.redirect("/list/" + listName)
       }
     })
     }
+})
+
+app.post("/newList", function(req, res) {
+  res.redirect("/list/" + req.body.newItem)
+})
+
+app.get("/deleteList/:listName", function(req, res) {
+  List.findOneAndDelete({name: req.params.listName}, function(err) {
+    if (!err) {
+      res.redirect("/");
+    }
+  })
 })
 
 app.listen(port, function() {
