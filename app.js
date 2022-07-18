@@ -3,17 +3,20 @@ const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
 const mongoose = require("mongoose");
+require('dotenv').config()
 
 const app = express();
 
 let port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
-const pwd = "Daetoya40658790"
-mongoose.connect("mongodb+srv://xc1uDB:" + pwd + "@xc1udb.bmfa7on.mongodb.net/todolistDB")
+
+mongoose.connect("mongodb+srv://xc1uDB:" + process.env.MONGODB_PWD + "@xc1udb.bmfa7on.mongodb.net/todolistDB")
 
 const itemsSchema = {
   name: {
@@ -55,9 +58,12 @@ app.get("/", function(req, res) {
   Item.find({}, function(err, item) {
     if (item.length === 0) {
       // add items to our DB
-      Item.insertMany(defaultItems, function(err){
-        if (err) {console.log(err);}
-        else {console.log("Successfuly add defalut items");}
+      Item.insertMany(defaultItems, function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Successfuly add defalut items");
+        }
       })
       res.redirect("/")
     } else {
@@ -79,7 +85,7 @@ app.post("/", function(req, res) {
   const listName = req.body.list;
   const day = date.getDate()
 
-  const item = new Item ({
+  const item = new Item({
     name: itemName,
   });
 
@@ -87,7 +93,9 @@ app.post("/", function(req, res) {
     item.save();
     res.redirect("/")
   } else {
-    List.findOne({name: listName}, function(err, foundList) {
+    List.findOne({
+      name: listName
+    }, function(err, foundList) {
       if (!err) {
         foundList.items.push(item);
         foundList.save();
@@ -102,7 +110,9 @@ app.get("/list/:listName", function(req, res) {
 
   const listName = _.capitalize(req.params.listName);
 
-  List.findOne({name: listName}, function(err, foundList) {
+  List.findOne({
+    name: listName
+  }, function(err, foundList) {
     if (!err) {
       if (!foundList) {
         const list = new List({
@@ -137,17 +147,27 @@ app.post("/delete", function(req, res) {
     })
 
   } else {
-    List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList) {
+    List.findOneAndUpdate({
+      name: listName
+    }, {
+      $pull: {
+        items: {
+          _id: checkedItemId
+        }
+      }
+    }, function(err, foundList) {
       if (!err) {
         res.redirect("/list/" + listName)
       }
     })
-    }
+  }
 })
 
 app.post("/newList", function(req, res) {
   const listName = _.capitalize(req.body.newItem);
-  List.create({name: listName}, function(err) {
+  List.create({
+    name: listName
+  }, function(err) {
     if (!err) {
       res.redirect("/list/" + listName)
     }
@@ -156,7 +176,9 @@ app.post("/newList", function(req, res) {
 })
 
 app.get("/deleteList/:listName", function(req, res) {
-  List.findOneAndDelete({name: req.params.listName}, function(err) {
+  List.findOneAndDelete({
+    name: req.params.listName
+  }, function(err) {
     if (!err) {
       res.redirect("/");
     }

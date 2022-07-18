@@ -1,31 +1,31 @@
 <%- include("header"); -%>
-    <div class="box navbar" id="heading">
-      <div class="container-fluid">
-          <button type="button" class="btn navbar-toggler p-0" data-toggle="modal" data-target="#exampleModal">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-          <h1 class="m-auto"> <%= listTitle %> </h1>
-      </div>
+<div class="box navbar" id="heading">
+  <div class="container-fluid">
+    <button type="button" class="btn navbar-toggler p-0" data-toggle="modal" data-target="#exampleModal">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="m-auto"> <%= listTitle %> </h1>
+  </div>
 
+</div>
+
+<div class="box">
+  <% newListItems.forEach(function(item, index) { %>
+  <form class="" action="/delete" method="post">
+    <div class="item" name="<%= index %>">
+      <input id="<%= index %>" type="checkbox" name="checkbox" value="<%= item._id %>" onchange="this.form.submit()">
+      <p onclick="checked(<%= index %>)"> <%= item.name %> </p>
+      <!-- <h6 class="p-1 align-self-end">
+        <a href="/deleteList/<%= item.name %>"><span class='bi bi-trash'></span></a>
+      </h6> -->
     </div>
+    <input type="hidden" name="list" value="<%= listTitle %>">
+  </form>
+  <% }); %>
 
-    <div class="box">
-      <% newListItems.forEach(function(item, index) { %>
-        <form class="" action="/delete" method="post">
-          <div class="item" name="<%= index %>">
-            <input id="<%= index %>" type="checkbox" name="checkbox" value="<%= item._id %>" onchange="this.form.submit()">
-            <p onclick="checked(<%= index %>)"> <%= item.name %> </p>
-              <!-- <form class="item" action="deleteItem" method="post"> -->
-                <!-- <button onclick="deleteItem(<%= index %>)" class="delete" type="submit" name="itemsIndex" value="<%= index %>">-</button> -->
-              <!-- </form> -->
-          </div>
-          <input type="hidden" name="list" value="<%= listTitle %>">
-        </form>
-      <% }); %>
-
-      <form class="item" action="/" method="post">
-        <input type="text" name="newItem" placeholder="type another task" autocomplete="off" autofocus>
-        <button class="" type="submit" name="list" value="<%= listTitle %>">+</button>
-      </form>
-    </div>
+  <form class="item" action="/" method="post">
+    <input id="inputTask" type="text" name="newItem" placeholder="type another task" autocomplete="off">
+    <button class="" type="submit" name="list" value="<%= listTitle %>">+</button>
+  </form>
+</div>
 <%- include("footer"); -%>
